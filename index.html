@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Store - Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #cbd5e1;
+        }
+
+        .store-btn {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .form-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            margin-bottom: 25px;
+        }
+
+        .form-box h2 {
+            margin-bottom: 20px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .input-group label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .input-group input {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .input-group input:focus {
+            border-color: #2563eb;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .add-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .update-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .clear-btn {
+            background: #e5e7eb;
+            color: #111827;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            margin-bottom: 25px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #16a34a;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            min-height: 45px;
+        }
+
+        .stock {
+            background: #f3f4f6;
+            padding: 10px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .card-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: auto;
+        }
+
+        .edit-btn {
+            flex: 1;
+            background: #f59e0b;
+            color: white;
+        }
+
+        .remove-btn {
+            flex: 1;
+            background: #dc2626;
+            color: white;
+        }
+
+        .empty {
+            text-align: center;
+            color: #6b7280;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 850px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .buttons {
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>Product Store Admin</h1>
+            <p>Manage your products easily</p>
+        </div>
+
+        <a href="localstorage1.html" class="store-btn">
+            View Store
+        </a>
+    </div>
+
+    <div class="form-box">
+        <h2>Add Product</h2>
+
+        <div class="form-grid">
+
+            <div class="input-group">
+                <label>Product Name</label>
+                <input type="text" id="productName" placeholder="Enter product name">
+            </div>
+
+            <div class="input-group">
+                <label>Product Price</label>
+                <input type="number" id="productPrice" placeholder="Enter price">
+            </div>
+
+            <div class="input-group">
+                <label>Image URL</label>
+                <input type="text" id="productImage" placeholder="Enter image URL">
+            </div>
+
+            <div class="input-group">
+                <label>Stock Units</label>
+                <input type="number" id="productStock" placeholder="Enter stock">
+            </div>
+
+            <div class="input-group">
+                <label>Short Description</label>
+                <input type="text" id="productDescription" placeholder="Enter description">
+            </div>
+
+        </div>
+
+        <div class="buttons">
+            <button class="add-btn" onclick="addProduct()">Add Product</button>
+            <button class="update-btn" onclick="updateProduct()">Update Product</button>
+            <button class="clear-btn" onclick="clearForm()">Clear</button>
+        </div>
+    </div>
+
+    <div class="search-box">
+        <input
+            type="text"
+            id="search"
+            placeholder="Search products..."
+            onkeyup="searchProduct()"
+        >
+    </div>
+
+    <div class="products" id="productGrid"></div>
+
+</div>
+
+<script>
+    let products = [];
+    let editIndex = -1;
+
+    function loadProducts() {
+        products = [];
+
+        let count = Number(localStorage.getItem("productCount")) || 0;
+
+        for (let i = 0; i < count; i++) {
+            let product = {
+                name: localStorage.getItem("productName" + i),
+                price: Number(localStorage.getItem("productPrice" + i)),
+                image: localStorage.getItem("productImage" + i),
+                description: localStorage.getItem("productDescription" + i),
+                stock: Number(localStorage.getItem("productStock" + i))
+            };
+
+            products.push(product);
+        }
+
+        displayProducts(products);
+    }
+
+    function addProduct() {
+        let name = document.getElementById("productName").value;
+        let price = Number(document.getElementById("productPrice").value);
+        let image = document.getElementById("productImage").value;
+        let description = document.getElementById("productDescription").value;
+        let stock = Number(document.getElementById("productStock").value);
+
+        if (name === "" || price === 0 || image === "" || description === "" || stock === 0) {
+            alert("Please fill all fields");
+            return;
+        }
+
+        let product = {
+            name: name,
+            price: price,
+            image: image,
+            description: description,
+            stock: stock
+        };
+
+        products.push(product);
+
+        saveProducts();
+        displayProducts(products);
+        clearForm();
+
+        alert("Product Added Successfully!");
+    }
+
+    function updateProduct() {
+        if (editIndex === -1) {
+            alert("Please select a product to edit");
+            return;
+        }
+
+        products[editIndex].name = document.getElementById("productName").value;
+        products[editIndex].price = Number(document.getElementById("productPrice").value);
+        products[editIndex].image = document.getElementById("productImage").value;
+        products[editIndex].description = document.getElementById("productDescription").value;
+        products[editIndex].stock = Number(document.getElementById("productStock").value);
+
+        saveProducts();
+        displayProducts(products);
+        clearForm();
+
+        editIndex = -1;
+
+        alert("Product Updated Successfully!");
+    }
+
+    function saveProducts() {
+        let oldCount = Number(localStorage.getItem("productCount")) || 0;
+
+        for (let i = 0; i < oldCount; i++) {
+            localStorage.removeItem("productName" + i);
+            localStorage.removeItem("productPrice" + i);
+            localStorage.removeItem("productImage" + i);
+            localStorage.removeItem("productDescription" + i);
+            localStorage.removeItem("productStock" + i);
+        }
+
+        localStorage.setItem("productCount", products.length);
+
+        products.forEach(function(product, index) {
+            localStorage.setItem("productName" + index, product.name);
+            localStorage.setItem("productPrice" + index, product.price);
+            localStorage.setItem("productImage" + index, product.image);
+            localStorage.setItem("productDescription" + index, product.description);
+            localStorage.setItem("productStock" + index, product.stock);
+        });
+    }
+
+    function displayProducts(list) {
+        let grid = document.getElementById("productGrid");
+        let output = "";
+
+        if (list.length === 0) {
+            output = `<p class="empty">No products available.</p>`;
+        } else {
+            list.forEach(function(product) {
+                let index = products.indexOf(product);
+
+                output += `
+                    <div class="card">
+                        <img src="${product.image}" alt="${product.name}">
+
+                        <div class="card-body">
+                            <h3>${product.name}</h3>
+
+                            <p class="price">${product.price}</p>
+
+                            <p class="description">
+                                ${product.description}
+                            </p>
+
+                            <p class="stock">
+                                <b>Stock:</b> ${product.stock} units
+                            </p>
+
+                            <div class="card-buttons">
+                                <button class="edit-btn" onclick="editProduct(${index})">
+                                    Edit
+                                </button>
+
+                                <button class="remove-btn" onclick="deleteProduct(${index})">
+                                    Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        grid.innerHTML = output;
+    }
+
+    function searchProduct() {
+        let search = document.getElementById("search").value.toLowerCase();
+
+        let filteredProducts = products.filter(function(product) {
+            return product.name.toLowerCase().includes(search);
+        });
+
+        displayProducts(filteredProducts);
+    }
+
+    function editProduct(index) {
+        let product = products[index];
+
+        document.getElementById("productName").value = product.name;
+        document.getElementById("productPrice").value = product.price;
+        document.getElementById("productImage").value = product.image;
+        document.getElementById("productDescription").value = product.description;
+        document.getElementById("productStock").value = product.stock;
+
+        editIndex = index;
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+    function deleteProduct(index) {
+        if (confirm("Are you sure you want to remove this product?")) {
+            products.splice(index, 1);
+
+            saveProducts();
+            displayProducts(products);
+        }
+    }
+
+    function clearForm() {
+        document.getElementById("productName").value = "";
+        document.getElementById("productPrice").value = "";
+        document.getElementById("productImage").value = "";
+        document.getElementById("productDescription").value = "";
+        document.getElementById("productStock").value = "";
+
+        editIndex = -1;
+    }
+
+    loadProducts();
+</script>
+
+</body>
+</html>
