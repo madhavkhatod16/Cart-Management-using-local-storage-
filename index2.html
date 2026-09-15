@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #1f2937;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #cbd5e1;
+        }
+
+        .admin-btn {
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            white-space: nowrap;
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card img {
+            width: 100%;
+            height: 210px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .card-body {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card h3 {
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .price {
+            color: #16a34a;
+            font-size: 19px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .description {
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 12px;
+            min-height: 45px;
+        }
+
+        .stock {
+            background: #f3f4f6;
+            padding: 10px;
+            border-radius: 7px;
+            margin-bottom: 15px;
+        }
+
+        .quantity {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .quantity span {
+            min-width: 70px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        button {
+            border: none;
+            padding: 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .minus {
+            background: #dc2626;
+            color: white;
+            width: 38px;
+        }
+
+        .plus {
+            background: #16a34a;
+            color: white;
+            width: 38px;
+        }
+
+        .cart-btn {
+            width: 100%;
+            background: #2563eb;
+            color: white;
+            margin-top: auto;
+        }
+
+        .cart {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.07);
+            margin-top: 35px;
+        }
+
+        .cart h2 {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 17px 5px;
+            border-bottom: 1px solid #e5e7eb;
+            gap: 20px;
+        }
+
+        .cart-info h4 {
+            margin-bottom: 6px;
+            font-size: 17px;
+        }
+
+        .cart-info p {
+            color: #6b7280;
+        }
+
+        .item-total {
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-top: 22px;
+            font-size: 23px;
+            font-weight: bold;
+        }
+
+        #orderBtn {
+            width: 100%;
+            background: #111827;
+            color: white;
+            margin-top: 18px;
+            padding: 14px;
+        }
+
+        #orderBtn:hover {
+            background: #2563eb;
+        }
+
+        .empty {
+            text-align: center;
+            color: #6b7280;
+            padding: 30px;
+        }
+
+        .out-stock {
+            color: #dc2626;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        @media (max-width: 850px) {
+            .products {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            .products {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .cart-item {
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <div>
+            <h1>Product Store</h1>
+            <p>Choose your products and place your order</p>
+        </div>
+
+        <a href="index.html" class="admin-btn">
+            Back to Admin
+        </a>
+    </div>
+
+    <h2 class="section-title">Products Catalogue</h2>
+
+    <div class="products" id="productGrid"></div>
+
+    <div class="cart">
+        <h2>Shopping Cart</h2>
+
+        <div id="cartList"></div>
+
+        <div class="cart-total">
+            Total: <span id="total">0</span>
+        </div>
+
+        <button id="orderBtn">
+            Place Order
+        </button>
+    </div>
+
+</div>
+
+<script>
+    let products = [];
+    let cart = [];
+
+    function loadProducts() {
+        products = [];
+
+        let count = Number(localStorage.getItem("productCount")) || 0;
+
+        for (let i = 0; i < count; i++) {
+            let product = {
+                name: localStorage.getItem("productName" + i),
+                price: Number(localStorage.getItem("productPrice" + i)),
+                image: localStorage.getItem("productImage" + i),
+                description: localStorage.getItem("productDescription" + i),
+                stock: Number(localStorage.getItem("productStock" + i)),
+                qty: 0
+            };
+
+            products.push(product);
+        }
+
+        displayProducts();
+    }
+
+    function displayProducts() {
+        let grid = document.getElementById("productGrid");
+        let output = "";
+
+        if (products.length === 0) {
+            output = `<p class="empty">No products available.</p>`;
+        } else {
+            products.forEach(function(product, index) {
+
+                let quantitySection = "";
+
+                if (product.stock > 0) {
+                    quantitySection = `
+                        <div class="quantity">
+                            <button class="minus" onclick="minus(${index})">
+                                -
+                            </button>
+
+                            <span>Qty : ${product.qty}</span>
+
+                            <button class="plus" onclick="plus(${index})">
+                                +
+                            </button>
+                        </div>
+
+                        <button class="cart-btn" onclick="addToCart(${index})">
+                            Add to Cart
+                        </button>
+                    `;
+                } else {
+                    quantitySection = `
+                        <p class="out-stock">
+                            Out of Stock
+                        </p>
+                    `;
+                }
+
+                output += `
+                    <div class="card">
+                        <img src="${product.image}" alt="${product.name}">
+
+                        <div class="card-body">
+                            <h3>${product.name}</h3>
+
+                            <p class="price">${product.price}</p>
+
+                            <p class="description">
+                                ${product.description}
+                            </p>
+
+                            <p class="stock">
+                                <b>Stock Available:</b> ${product.stock}
+                            </p>
+
+                            ${quantitySection}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        grid.innerHTML = output;
+    }
+
+    function plus(index) {
+        if (products[index].qty < products[index].stock) {
+            products[index].qty++;
+            displayProducts();
+        }
+    }
+
+    function minus(index) {
+        if (products[index].qty > 0) {
+            products[index].qty--;
+            displayProducts();
+        }
+    }
+
+    function addToCart(index) {
+        let product = products[index];
+
+        if (product.qty === 0) {
+            alert("Please select quantity");
+            return;
+        }
+
+        let existingProduct = cart.find(function(item) {
+            return item.name === product.name;
+        });
+
+        if (existingProduct) {
+            if (existingProduct.qty + product.qty <= product.stock) {
+                existingProduct.qty += product.qty;
+            } else {
+                alert("Not enough stock available");
+                return;
+            }
+        } else {
+            let cartProduct = {
+                name: product.name,
+                price: product.price,
+                qty: product.qty
+            };
+
+            cart.push(cartProduct);
+        }
+
+        product.qty = 0;
+
+        displayProducts();
+        displayCart();
+    }
+
+    function displayCart() {
+        let cartList = document.getElementById("cartList");
+        let total = 0;
+        let output = "";
+
+        if (cart.length === 0) {
+            output = `<p class="empty">Cart is empty</p>`;
+        } else {
+            cart.forEach(function(item) {
+                let itemTotal = item.price * item.qty;
+
+                total += itemTotal;
+
+                output += `
+                    <div class="cart-item">
+                        <div class="cart-info">
+                            <h4>${item.name}</h4>
+                            <p>${item.qty} × ${item.price}</p>
+                        </div>
+
+                        <div class="item-total">
+                            ${itemTotal}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        cartList.innerHTML = output;
+        document.getElementById("total").innerText = total;
+    }
+
+    function saveOrder() {
+        let orderCount = Number(localStorage.getItem("orderCount")) || 0;
+
+        cart.forEach(function(item) {
+
+            let productIndex = products.findIndex(function(product) {
+                return product.name === item.name;
+            });
+
+            if (productIndex !== -1) {
+
+                products[productIndex].stock -= item.qty;
+
+                localStorage.setItem(
+                    "productStock" + productIndex,
+                    products[productIndex].stock
+                );
+
+                localStorage.setItem(
+                    "orderName" + orderCount,
+                    item.name
+                );
+
+                localStorage.setItem(
+                    "orderPrice" + orderCount,
+                    item.price
+                );
+
+                localStorage.setItem(
+                    "orderQty" + orderCount,
+                    item.qty
+                );
+
+                localStorage.setItem(
+                    "orderTotal" + orderCount,
+                    item.price * item.qty
+                );
+
+                orderCount++;
+            }
+        });
+
+        localStorage.setItem("orderCount", orderCount);
+    }
+
+    document.getElementById("orderBtn").addEventListener("click", function() {
+
+        if (cart.length === 0) {
+            alert("Your cart is empty");
+            return;
+        }
+
+        saveOrder();
+
+        alert("Order Placed Successfully!");
+
+        cart = [];
+
+        products.forEach(function(product) {
+            product.qty = 0;
+        });
+
+        displayProducts();
+        displayCart();
+    });
+
+    loadProducts();
+    displayCart();
+</script>
+
+</body>
+</html>
